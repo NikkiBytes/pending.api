@@ -1,7 +1,7 @@
 import biothings.utils.dataload as dl   
 from multiprocess import Pool, Manager
 import requests, json
-import time
+import time, os
 from itertools import groupby
 from operator import itemgetter
 
