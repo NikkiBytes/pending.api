@@ -6,9 +6,19 @@
         "url": "https://diseases.jensenlab.org/"
     },
     "dumper": {
-        "data_url": [ "https://download.jensenlab.org/human_tissue_textmining_full.tsv" ],
-        "uncompress": false,
-        "release": "version:get_release"
+        "data_url": [ "https://download.jensenlab.org/human_tissue_textmining_full.tsv",
+                      "https://download.jensenlab.org/human_tissue_experiments_full.tsv",
+                      "https://download.jensenlab.org/human_tissue_knowledge_full.tsv",
+                      "https://download.jensenlab.org/mouse_tissue_textmining_full.tsv",
+                      "https://download.jensenlab.org/mouse_tissue_experiments_full.tsv",
+                      "https://download.jensenlab.org/mouse_tissue_knowledge_full.tsv",
+                      "https://download.jensenlab.org/rat_tissue_textmining_full.tsv",
+                      "https://download.jensenlab.org/rat_tissue_experiments_full.tsv",
+                      "https://download.jensenlab.org/rat_tissue_knowledge_full.tsv",
+                      "https://download.jensenlab.org/pig_tissue_textmining_full.tsv",
+                      "https://download.jensenlab.org/pig_tissue_experiments_full.tsv",
+                      "https://download.jensenlab.org/pig_tissue_knowledge_full.tsv" ],
+        "uncompress": false
     },
     "uploader": {
         "parser": "parser:load_data",
