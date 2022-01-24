@@ -62,53 +62,58 @@ def load_ep_kn_data(datafiles, category):
             #print(json.dumps(row_dict, indent=4))
     return json_docs
 
-
 def load_data(data_folder):
-    """ 
-    Main data load function
-    Keyword arguments:
-    data_folder -- folder storing downloaded files
-    """
+   # Main data load function
+   # Keyword arguments:
+   # data_folder -- folder storing downloaded files
     orig_st=time.time()
     records=[]
-    print("[INFO] Loading TISSUE data ....")
 
-    kn_files=glob.glob(os.path.join(data_folder, "*_tissue_knowledge_full.tsv"))
-    print("[INFO] %s knowledge files loaded."%(len(kn_files)))#, kn_files))
-    tm_files=glob.glob(os.path.join(data_folder, "*_tissue_textmining_full.tsv"))
-    print("[INFO] %s text mining files loaded."%(len(tm_files)))#, tm_files))
-    ex_files=glob.glob(os.path.join(data_folder, "*_tissue_experiments_full.tsv"))
-    print("[INFO] %s experiments files loaded."%(len(ex_files)))#, ex_files))
-    
-    # extract data
+    print("\n[INFO] Loading TISSUE data ....")
+
+    data_folder="/Users/nacosta/Documents/data/"
+    kn_files=glob.glob(os.path.join(data_folder, "*human*_tissue_knowledge_full.tsv"))
+    #print("[INFO] %s knowledge files found."%(len(kn_files)))#, kn_files))
+    tm_files=glob.glob(os.path.join(data_folder, "*human*_tissue_textmining_full.tsv"))
+    #print("[INFO] %s text mining files found."%(len(tm_files)))#, tm_files))
+    ex_files=glob.glob(os.path.join(data_folder, "*human*_tissue_experiments_full.tsv"))
+    #print("[INFO] %s experiments files found."%(len(ex_files)))#, ex_files))
+
     json_docs=load_tm_data(tm_files) + load_ep_kn_data(ex_files,  "experiments")+load_ep_kn_data(kn_files, "knowledge")
-    for key, group in groupby(json_docs, key=itemgetter('tissue_identifier')):
-        res = {
-            "_id": None,
-            "subject": {},
-            "association":{},
-            "object":{}            
-        }
+    sorted_doc=sorted(json_docs, key=itemgetter('tissue_identifier'))
+    len(sorted_doc), len(json_docs)
+    docs=sorted_doc#[100:110]
+    iterator=groupby(docs, key=itemgetter("tissue_identifier"))
 
-        merged_doc = []
+    for key, group in iterator:
+        i=0
+        for _record in list(group):
+            i+=1
+           
+            
+            # initialize record
+            res = {
+                "_id": None,
+                "subject": {},
+                "association":{},
+                "object":{}            
+            }
 
-        for _doc in group:
-            res["_id"] = key
-            res["subject"]['id'] = key               
-            _doc.pop("tissue_identifier")
-            res["subject"]["name"] = _doc.pop("tissue_name")
-            merged_doc.append(_doc)
-        for key in merged_doc[0].keys():
-            if key == "ensembl" or key == "symbol":
-                res['object'][key]=merged_doc[0][key]
-            else:
-                res["association"][key]= merged_doc[0][key]
+            merged_doc = []
 
-        records.append(res)
-    
-    print("[INFO] Finished making records, total time: {:0.2f} seconds.".format(time.time()-orig_st))
-    print("[INFO]  %s records made. "%len(records))
-    print("[INFO] Example records \n", json.dumps(records[-4:], indent=4))
-    return records
+            orig_key=key
+            mod_key=orig_key+f"_{i:010d}" # modify key
+            print(mod_key)
 
-load_data("/Users/nacosta/Documents/data/") 
+            res["_id"] = mod_key
+            res["subject"]['id'] = orig_key               
+
+            _record.pop("tissue_identifier")
+            res["subject"]["name"] = _record["tissue_name"]
+            merged_doc.append(_record)
+            for mod_key in merged_doc[0].keys():
+                if mod_key == "ensembl" or mod_key == "symbol":
+                    res['object'][mod_key]=merged_doc[0][mod_key]
+                else:
+                    res["association"][mod_key]= merged_doc[0][mod_key]
+            yield res
