@@ -1,53 +1,32 @@
- # TISSUES Data Plugin for Biothings  
+ # TISSUES Data Plugin for Biothings Pending API   
   
-Input data is from [TISSUES Database](https://tissues.jensenlab.org/About).  
+Data plugin using [TISSUES](https://tissues.jensenlab.org/About) data.  
   
 ## Notes  
   
   
   
 - **Association centric**  document.   
-- Can change the `_id` below to its symbolic representation. 
+- Currently only human files used as input, _other species are available._
 
-## <u> Document Structure</u>  
-  
+## Example Record
 ```  
-[
-    {
-        "_id": "BTO:0000000",
-        "TISSUES": {
-            "associatedWith": [
-                {
-                    "ensembl": "18S_rRNA",
-                    "symbol": "18S_rRNA",
-                    "zscore": 6.111,
-                    "confidence": 3.055,
-                    "category": "textmining"
-                }
-            ],
-            "tissue_id": "BTO:0000000",
-            "tissue_name": "tissues, cell types and enzyme sources"
-        }
-    },
-    {
-        "_id": "BTO:0000042",
-        "TISSUES": {
-            "associatedWith": [
-                {
-                    "ensembl": "18S_rRNA",
-                    "symbol": "18S_rRNA",
-                    "zscore": 5.997,
-                    "confidence": 2.999,
-                    "category": "textmining"
-                }
-            ],
-            "tissue_id": "BTO:0000042",
-            "tissue_name": "BTO:0000042"
-        }
-    },
-    .
-    .
-    .
-]
 
+{
+    "_id": "CLDB:0007242_0000000090",
+    "subject": {
+        "id": "CLDB:0007242",
+        "name": "COV-644"
+    },
+    "association": {
+        "tissue_name": "COV-644",
+        "zscore": "2.239",
+        "confidence": "1.120",
+        "category": "textmining"
+    },
+    "object": {
+        "ensembl": "hsa-miR-892a",
+        "symbol": "hsa-miR-892a"
+    }
+}
 ```
