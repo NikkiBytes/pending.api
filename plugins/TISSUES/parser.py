@@ -1,5 +1,5 @@
 import biothings.utils.dataload as dl   
-import  json, glob
+import bglob
 import time, os
 from itertools import groupby
 from operator import itemgetter
@@ -89,8 +89,6 @@ def load_data(data_folder):
         i=0
         for _record in list(group):
             i+=1
-           
-            
             # initialize record
             res = {
                 "_id": None,
@@ -102,8 +100,8 @@ def load_data(data_folder):
             merged_doc = []
 
             orig_key=key
-            mod_key=orig_key+f"_{i:010d}" # modify key
-            print(mod_key)
+            mod_key=orig_key+f"_{i:08d}" # modify key
+            #print(mod_key)
 
             res["_id"] = mod_key
             res["subject"]['id'] = orig_key               
